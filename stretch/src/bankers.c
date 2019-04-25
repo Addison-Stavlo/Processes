@@ -122,19 +122,23 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Error: please add an int number of processes\n");
 		exit(1);
 	}
-	printf("%s\n", argv[1]);
-	void *arg1_void = argv[1];
-	int *arg1 = arg1_void;
+
+	// void *arg1_void = argv[1];
+	// int *arg1 = arg1_void;
 	// Store the number of processes in this variable:
 	// How many processes to fork at once
-	int num_processes = arg1;
+	int num_processes = atoi(argv[1]);
 
 	printf("%d\n", num_processes);
 	// Make sure the number of processes the user specified is more than
 	// 0 and print an error to stderr if not, then exit with status 2:
 	//
 	// "bankers: num processes must be greater than 0\n"
-
+	if (num_processes <= 0)
+	{
+		fprintf(stderr, "Error: number of processes must be greater than 0\n");
+		exit(2);
+	}
 	// ^^^^^^^^^^^^^^^^^^
 
 	// Start with $10K in the bank. Easy peasy.
