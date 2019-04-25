@@ -34,7 +34,7 @@ int main()
 
     clock_gettime(CLOCK_REALTIME, &stop);
 
-    // dif in ns = dif in seconds converted to ns + dif in ns
+    // dif in ns = dif in seconds field converted to ns + dif in ns field
     int dif_in_ns = (stop.tv_sec - start.tv_sec) * BILLION + (stop.tv_nsec - start.tv_nsec);
 
     // timer per system call in ns

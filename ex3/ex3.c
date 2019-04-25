@@ -18,7 +18,8 @@ int main(void)
     }
     else
     {
-        wait(NULL);
+        //wait(NULL);
+        waitpid(pid, NULL, 0);
         printf("goodbye\n");
     }
 

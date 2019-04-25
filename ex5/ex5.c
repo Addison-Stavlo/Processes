@@ -31,7 +31,7 @@ int main(void)
     }
     else
     {
-        wait(NULL);
+        waitpid(pid, NULL, 0);
 
         char buf[MSGSIZE];
 

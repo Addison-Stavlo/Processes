@@ -39,7 +39,8 @@ int main(void)
     }
     else
     {
-        wait(NULL);
+        waitpid(pid, NULL, 0);
+        // wait(NULL);
         printf("I'm the parent! my pid is %d\n", pid);
     }
 
