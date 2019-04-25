@@ -174,14 +174,25 @@ int main(int argc, char **argv)
 			read_balance(fd, &balance);
 			// Try to withdraw money
 			//
-			if (amount > balance)
+			// set boolean for deduction or deposit
+			int isDeduction = rand() % 2;
+
+			if (amount > balance && isDeduction)
 			{
 				printf("Only have $%d, cant withdraw $%d\n", balance, amount);
 			}
 			else
 			{
-				write_balance(fd, balance - amount);
-				printf("Withdrew $%d, new balance $%d\n", amount, balance - amount);
+				if (isDeduction)
+				{
+					write_balance(fd, balance - amount);
+					printf("Withdrew $%d, new balance $%d\n", amount, balance - amount);
+				}
+				else
+				{
+					write_balance(fd, balance + amount);
+					printf("Deposited $%d, new balance $%d\n", amount, balance + amount);
+				}
 			}
 			// Sample messages to print:
 			//
