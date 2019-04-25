@@ -2,6 +2,8 @@
 // (e.g., x) and set its value to something (e.g., 100). What value is the variable in the child process?
 // What happens to the variable when both the child and parent change the value of x?
 
+// they can both access it and change its value, somehow while sharing the same memory location??
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
