@@ -5,10 +5,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+// #include <sys/types.h>
+#include <sys/wait.h>
 
 int main(void)
 {
     // Your code here
+    int x = 100;
+
+    pid_t pid = fork();
+
+    if (pid == 0) //child process
+    {
+        printf("child process x = %d at address %p\n", x, &x);
+        x = 10;
+        printf("child process now x = %d at address %p\n", x, &x);
+    }
+    else
+    {
+        printf("parent process x = %d at address %p\n", x, &x);
+        x = 1000;
+        printf("parent process now x = %d at address %p\n", x, &x);
+    }
+
+    printf("x = %d at address %p\n", x, &x);
 
     return 0;
 }
