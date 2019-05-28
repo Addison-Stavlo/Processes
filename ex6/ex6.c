@@ -11,6 +11,8 @@ turns out to only be the case for OSX versions < 10.12. Anything later than that
 and `clock_gettime()` should work just fine. 
 */
 
+// seems to be a bit over a microsecond per syscall.
+
 #include <stdio.h>
 #include <unistd.h>
 #include <time.h>
@@ -21,6 +23,23 @@ and `clock_gettime()` should work just fine.
 int main()
 {
     // Your code here
-    
+    struct timespec start, stop;
+
+    clock_gettime(CLOCK_REALTIME, &start);
+
+    for (int i = 0; i < number_iter; i++)
+    {
+        write(STDOUT_FILENO, "", 0);
+    }
+
+    clock_gettime(CLOCK_REALTIME, &stop);
+
+    // dif in ns = dif in seconds field converted to ns + dif in ns field
+    int dif_in_ns = (stop.tv_sec - start.tv_sec) * BILLION + (stop.tv_nsec - start.tv_nsec);
+
+    // timer per system call in ns
+    double timePerIter = dif_in_ns / (double)number_iter;
+    printf("time per system call:\n      %0.3f ns\n", timePerIter);
+
     return 0;
 }

@@ -16,7 +16,7 @@ these processes run at once? Anything bad?
 ## Concurrency
 
 What is
-[concurrency](https://en.wikipedia.org/wiki/Concurrency_(computer_science))?
+[concurrency](<https://en.wikipedia.org/wiki/Concurrency_(computer_science)>)?
 In a nutshell, we want to run a number of processes at the same time
 with access to _shared resources_. And we want these processes not to
 step on each-other's toes.
@@ -47,16 +47,14 @@ The process for withdrawing money is simple:
 1. Open the file containing the balance.
 2. Read the current balance.
 3. Try to withdraw some amount of cash.
-   * If the amount to withdraw is less than (or equal to) the current
+   - If the amount to withdraw is less than (or equal to) the current
      balance:
-       * Subtract that amount from the current balance.
-	   * Write the new balance to the file.
-   * If the amount to withdraw is greater than the current balance:
-       * Print an error and do not modify the balance.
+     - Subtract that amount from the current balance. \* Write the new balance to the file.
+   - If the amount to withdraw is greater than the current balance:
+     - Print an error and do not modify the balance.
 4. Close the file containing the balance.
 
 This works fine for any one process trying to withdraw money in isolation.
-
 
 ## Assignment
 
@@ -67,31 +65,40 @@ simulated bank account, that is. Don't get your hopes up.)
    above plan at the same time? Is there more than one way things can go
    wrong?
 
+   They could read the same amount initially and the last one to write the new balance will neglect the other's write/deduction. There are multiple ways to go wrong.
+
 2. Study and understand the skeleton code in the `src/` directory.
 
    **Short answer**: what do each of the arguments to `open()` mean?
 
+   filename, what to do with it (create if DNE or give read/write priveleges if it does), and where to create it if needed.
+
 3. Take the skeleton code in the `src/` directory and implement the
    pieces marked. Run it.
-   
+
    **Short answer**: What happens? Do things go as planned and look
    sensible? What do you speculate is happening?
+
+   Things do go as planned and look sensible. There doesnt seem to be an conflict between processes and everything looks like it adds up in the end...
 
 4. Add calls to [`flock()`](https://linux.die.net/man/2/flock) to
    capture and release an exclusive lock on the file before reading and
    changing the data.
 
    The results of the run should now make sense.
-   
+
+   ... but it already did? il add it anyways...
+
 5. **Short answer**: Why is it working? How has adding locks fixed the
    problems you noted in question 1? How is overall performance of the
    application affected?
 
+   if it had the problem you were expecting (maybe a difference in OS?), i will assume what i added fixed the problem. flock locks write priveleges to a file, so in the code each child process locks the file to only be accessable to itself, then after it completes its job it unlocks the file for other child processes to use.
 
 ## Stretch Goals
 
-* Make some processes deposit money while others withdraw money.
+- Make some processes deposit money while others withdraw money.
 
-* Have some processes simply check the balance without changing it. Do
+- Have some processes simply check the balance without changing it. Do
   you need to lock? If so, do you need to use `LOCK_EX`? If not, what
   are the advantages of your approach?
